@@ -11,48 +11,45 @@ game.states.boot = function () {
 		}
 }
 
-// 用来显示资源加载进度
 game.states.preloader = function () {
 	this.preload = function () {
-			game.load.image('bg', 'assets/image/bg.jpg');
+			game.load.image('mainBg', 'assets/image/bg.jpg');
+			game.load.image('angela', 'assets/image/angela.png');
 		},
 		this.create = function () {
 			this.state.start('menu');
 		}
 }
 
-// 游戏菜单
 game.states.menu = function () {
 	this.create = function () {
-			game.input.onDown.add(this.startGame, this);
+			this.startGame();
 		},
 		this.startGame = function () {
-			console.log('startgame');
 			game.state.start('start');
 		}
 }
 
 game.states.start = function () {
-	console.log('start');
 	this.preload = function () {
-			console.log('start preload');
-			///初始化状态
-			this.day = '#FFFFFF';
+			this.land = game.add.tileSprite(0, 0, game.stage.width, game.cache.getImage('mainBg').height, 'mainBg');
+			this.angela = this.add.image('angela');
+			game.physics.arcade.enable(this.land);
 		},
 		this.create = function () {
-			this.speed = -500;
-			
-			console.log('start create');
-			this.land = game.add.image(0, 0, 'bg');
-			this.land.width = game.world.width;
-			this.land.height = game.world.height;
-			game.physics.arcade.enable(this.land);
-			this.land.autoScroll(this.speed, 0); //自动重复滚动
-			this.land.body.allowGravity = false; //不用重力
-			this.land.body.immovable = true; //不可移动的，别的物体碰到后会反弹
+			this.angela = this.add.sprite(0, 0, 'angela')
+			game.physics.arcade.enable(this.angela);
+			this.angela.anchor.set(0.5);
+			this.angela.x = this.angela.width;
+			this.angela.y = game.height - this.angela.height / 2;
+			// this.angela.body.collideWorldBounds = true;
+			// game.camera.follow(this.angela);
 		},
-		this.gameStart = function () { //清理资源，重新开始游戏
+		this.gameStart = function () {
 			game.state.start('start');
+		},
+		this.update = function() {
+			this.land.tilePosition.x -= 1;
 		}
 }
 
