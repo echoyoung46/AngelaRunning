@@ -74,7 +74,7 @@ game.states.start = function () {
 		this.addProps = function () {
 			console.log('addProps');
 			// var random = game.rnd.between(1, 100);
-			var small = this.smallGroup.getFirstDead();
+			var small = this.smallGroup;
 			console.log(small);
 			if (small !== null) {
 				small.reset(game.width, game.height - small.height);
